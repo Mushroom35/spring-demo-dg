@@ -1,0 +1,29 @@
+package pl.sda.javalondek4springdemo.repository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.sda.javalondek4springdemo.model.Book;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BookRepository {
+
+    private static final Logger logger = LoggerFactory.getLogger(BookRepository.class);
+
+    private List<Book> books;
+
+    public BookRepository() {
+        List<Book> someBooks = List.of(
+                new Book(1L, "Henryk Sienkiewicz", "Potop"),
+                new Book(2L, "Henryk Sienkiewicz", "Pan Wołodyjowski"),
+                new Book(3L, "Henryk Sienkiewicz", "Quo Vadis"),
+                new Book(4L, "Dmitri Glukhovsky", "Metro 2033"),
+                new Book(5L, "George Orwell", "Rok 1984")
+        );
+
+        this.books = new ArrayList<>(someBooks);
+
+        logger.info("book repository initialized with books: {}", books);
+    }
+}

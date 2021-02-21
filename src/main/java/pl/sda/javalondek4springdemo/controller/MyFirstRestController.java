@@ -3,6 +3,7 @@ package pl.sda.javalondek4springdemo.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,13 @@ public class MyFirstRestController {
 
     private final MyService myService;
 
+    public MyFirstRestController() {
+        myService = null;
+    }
+
+    @Autowired
     public MyFirstRestController(MyService myService) {
+        logger.info("my service initialized with crrect value :)");
         this.myService = myService;
     }
 
