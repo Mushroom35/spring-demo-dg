@@ -30,8 +30,6 @@ public class BookService {
         logger.info("number of found books: [{}]", result.size());
         logger.debug("result: {}", result);
 
-        return result;
-    public List<Book> findAllBooks() {
         //check null :)
         return Collections.emptyList();
     }
