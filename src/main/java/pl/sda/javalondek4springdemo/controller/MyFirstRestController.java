@@ -1,27 +1,30 @@
 package pl.sda.javalondek4springdemo.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.sda.javalondek4springdemo.service.MyService;
-
-import java.util.Locale;
 
 @RestController
 public class MyFirstRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(MyFirstRestController.class);
 
-    private static final Logger logger = LoggerFactory.getLogger(MyFirstRestController.class);
-
     private final MyService myService;
 
+    public MyFirstRestController() {
+        logger.info("my service will be null:(");
+        myService = null;
+    }
+
+    @Autowired // choose one way to create Spring Bean!!!
+    // if only one way of object creation exists @Autowired is not necessary
     public MyFirstRestController(MyService myService) {
+        logger.info("my service initialized with correct value:)");
         this.myService = myService;
     }
 
@@ -42,7 +45,8 @@ public class MyFirstRestController {
 
     // /convert-name?myName=Mariusz
     @GetMapping("/convert-name")
-    public String convertMyNameToUpperCae(@RequestParam("myName") String name) {
+    public String convertMyNameToUpperCase(@RequestParam("myName") String name) {
+
         String result = myService.convertToUpperCase(name);
 
         logger.info("input param: [{}], result: [{}]", name, result);

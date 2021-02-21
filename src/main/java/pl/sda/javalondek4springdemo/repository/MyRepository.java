@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 public class MyRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(MyRepository.class);
-
 }
