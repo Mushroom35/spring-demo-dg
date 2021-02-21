@@ -3,21 +3,21 @@
     * V - view
     * C - controller
 
-V - widoki są serwowane przez kontroler
-C - serwuje widoki/odbiera request'y
-M - dane i operacje na nich
+* V - widoki są serwowane przez kontroler
+* C - serwuje widoki/odbiera request'y
+* M - dane i operacje na nich
 
 Model = Service + Repository
 
 ### Aplikacja webowa
-View
-Controller
-Service
-Repository
+* View
+* Controller
+* Service
+* Repository
 
 ### Aplikacja standalone
-Service
-Repository
+* Service
+* Repository
 
 REST
 * HTTP
@@ -30,5 +30,5 @@ REST
     * Create - POST --> \books
     * Update (replace) - PUT \books\{id}
     * Update (partial) - PATCH \books\{id}
-
-    * HATEOS --> REST Full
+  
+    *HATEOS --> REST Full

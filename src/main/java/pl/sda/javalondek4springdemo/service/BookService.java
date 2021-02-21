@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 import pl.sda.javalondek4springdemo.model.Book;
 import pl.sda.javalondek4springdemo.repository.BookRepository;
 
+import org.springframework.stereotype.Service;
+import pl.sda.javalondek4springdemo.model.Book;
+
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -27,5 +31,8 @@ public class BookService {
         logger.debug("result: {}", result);
 
         return result;
+    public List<Book> findAllBooks() {
+        //check null :)
+        return Collections.emptyList();
     }
 }
