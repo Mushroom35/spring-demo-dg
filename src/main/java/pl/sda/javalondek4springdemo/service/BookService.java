@@ -7,6 +7,10 @@ import pl.sda.javalondek4springdemo.exception.BookNotFoundException;
 import pl.sda.javalondek4springdemo.model.Book;
 import pl.sda.javalondek4springdemo.repository.BookRepository;
 
+import org.springframework.stereotype.Service;
+import pl.sda.javalondek4springdemo.model.Book;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +34,8 @@ public class BookService {
         logger.info("number of found books: [{}]", result.size());
         logger.debug("result: {}", result);
 
-        return result;
+        //check null :)
+        return Collections.emptyList();
     }
 
     public Book findBookById(Long id) {
