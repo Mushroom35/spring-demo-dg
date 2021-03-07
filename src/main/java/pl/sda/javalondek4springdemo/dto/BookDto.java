@@ -2,7 +2,6 @@ package pl.sda.javalondek4springdemo.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 // data transfer object
 public final class BookDto {
 
@@ -35,9 +34,9 @@ public final class BookDto {
     @Override
     public String toString() {
         return "BookDto{" +
-                "id=" + id +
-                ", author='" + author + '\'' +
-                ", title='" + title + '\'' +
-                '}';
+            "id=" + id +
+            ", author='" + author + '\'' +
+            ", title='" + title + '\'' +
+            '}';
     }
 }

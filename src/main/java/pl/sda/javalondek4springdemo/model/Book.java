@@ -10,6 +10,16 @@ public class Book {
 
     private String title;
 
+    public Book(Long id, String name, String surname, String title) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.title = title;
+    }
+
+    public Book() {
+    }
+
     public String getName() {
         return name;
     }
@@ -26,13 +36,6 @@ public class Book {
         this.surname = surname;
     }
 
-    public Book(Long id, String name, String surname, String title) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.title = title;
-    }
-
     public Long getId() {
         return id;
     }
@@ -40,7 +43,6 @@ public class Book {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getTitle() {
         return title;
@@ -53,10 +55,10 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", title='" + title + '\'' +
-                '}';
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", surname='" + surname + '\'' +
+            ", title='" + title + '\'' +
+            '}';
     }
 }
