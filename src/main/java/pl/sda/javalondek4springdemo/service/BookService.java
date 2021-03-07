@@ -11,6 +11,7 @@ import pl.sda.javalondek4springdemo.repository.BookRepository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collector;
 
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
@@ -31,10 +32,11 @@ public class BookService {
 
     public List<BookDto> findAllBooks() {
 
+        Collector<? super BookDto, ?, ?> toList;
         var result = bookRepository.findAllBooks()
-            .stream()
-            .map(book -> bookMapper.fromEntityToDto(book))
-            .collect(toList());
+                .stream()
+                .map(book -> bookMapper.fromEntityToDto(book))
+                .collect(toList());
 
         logger.info("number of found books: [{}]", result.size());
         logger.debug("result: {}", result);
@@ -45,7 +47,7 @@ public class BookService {
     public BookDto findBookById(Long id) {
         Objects.requireNonNull(id, "id parameter mustn't be null!!!");
 
-        var result = bookMapper.fromEntityToDto(findBookByIdFromRepository(id));
+        var result = bookMapper.fromEntityToDto()findBookByIdFromRepository(id);
         logger.info("book found for id: [{}] is: [{}]", id, result);
 
         return result;
