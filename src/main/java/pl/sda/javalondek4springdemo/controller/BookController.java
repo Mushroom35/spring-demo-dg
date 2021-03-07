@@ -16,6 +16,7 @@ import pl.sda.javalondek4springdemo.model.Book;
 import pl.sda.javalondek4springdemo.service.BookService;
 
 import java.net.URI;
+
 import java.util.List;
 
 @RestController
@@ -63,13 +64,21 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBookById(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteBookById(@PathVariable("id") Long id) {
         logger.info("deleting book by id: [{}]", id);
+        // delete is true - Response Code 204
+        // delete false - RC 4xx
+        boolean deleted = bookService.deleteBookById(id);
+        ResponseEntity<Void> result = ResponseEntity.notFound().build();
+        if (deleted) {
+            ResponseEntity.noContent();
+        }
 
-        bookService.deleteBookById(id);
+        return result;
     }
 
     // update (replace)
+
     @PutMapping("/{id}")
     public Book replaceBook(@PathVariable("id") Long id, @RequestBody Book toReplace) {
         logger.info("replacing book with id: [{}] with new one: [{}]", id, toReplace);
@@ -83,5 +92,28 @@ public class BookController {
         logger.info("updating book with id: [{}] with new attributes: [{}]", id, toUpdate);
 
         return bookService.updateBookWithAttributes(id, toUpdate);
+    }
+
+//       try {
+//       all methods from current controller
+//    } catch (BookNotFoundException exception) {
+//
+//    } catch (AnotherException exc) {
+//
+//    }
+    // only for this controller
+
+    @ExceptionHandler(BookNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleBookNotFoundException(BookNotFoundException exception, HttpServletRequest request) {
+        logger.warn("some unexpected exception has occurred :)", exception);
+
+        return ResponseEntity.badRequest().body(
+                new ExceptionResponse(LocalDateTime.now(Clock.systemUTC()),
+                        HttpStatus.BAD_REQUEST.value(),
+                        exception.getClass().getName(),
+                        exception.getMessage(),
+                        request.getServletPath()
+                )
+        );
     }
 }
