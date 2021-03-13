@@ -78,13 +78,6 @@ public class BookController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBookById(@PathVariable("id") Long id) {
         logger.info("deleting book by id: [{}]", id);
-        // delete is true - Response Code 204
-        // delete false - RC 4xx
-        boolean deleted = bookService.deleteBookById(id);
-        ResponseEntity<Void> result = ResponseEntity.notFound().build();
-        if (deleted) {
-            ResponseEntity.noContent();
-        }
         // delete true - RC 204
         // delete false - RC 4xx
         boolean deleted = bookService.deleteBookById(id);
@@ -92,8 +85,6 @@ public class BookController {
         if (deleted) {
             return ResponseEntity.noContent().build();
         }
-
-        return result;
         return result;
 
 //        return deleted ?  ResponseEntity.noContent().build() : ResponseEntity.notFound().build() ;
