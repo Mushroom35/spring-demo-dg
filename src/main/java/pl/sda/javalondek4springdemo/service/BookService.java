@@ -3,6 +3,8 @@ package pl.sda.javalondek4springdemo.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pl.sda.javalondek4springdemo.converter.BookMapper;
+import pl.sda.javalondek4springdemo.dto.BookDto;
 import pl.sda.javalondek4springdemo.exception.BookNotFoundException;
 import pl.sda.javalondek4springdemo.model.Book;
 import pl.sda.javalondek4springdemo.repository.BookRepository;
@@ -13,8 +15,10 @@ import pl.sda.javalondek4springdemo.model.Book;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collector;
 
 import static java.util.Objects.nonNull;
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class BookService {
@@ -23,13 +27,20 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    public BookService(BookRepository bookRepository) {
+    private final BookMapper bookMapper;
+
+    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
         this.bookRepository = bookRepository;
+        this.bookMapper = bookMapper;
     }
 
-    public List<Book> findAllBooks() {
+    public List<BookDto> findAllBooks() {
 
-        var result = bookRepository.findAllBooks();
+        Collector<? super BookDto, ?, ?> toList;
+        var result = bookRepository.findAllBooks()
+                .stream()
+                .map(book -> bookMapper.fromEntityToDto(book))
+                .collect(toList());
 
         logger.info("number of found books: [{}]", result.size());
         logger.debug("result: {}", result);
@@ -38,10 +49,10 @@ public class BookService {
         return Collections.emptyList();
     }
 
-    public Book findBookById(Long id) {
+    public BookDto findBookById(Long id) {
         Objects.requireNonNull(id, "id parameter mustn't be null!!!");
 
-        var result = findBookByIdFromRepository(id);
+        var result = bookMapper.fromEntityToDto(findBookByIdFromRepository(id));
         logger.info("book found for id: [{}] is: [{}]", id, result);
 
         return result;
@@ -49,28 +60,29 @@ public class BookService {
 
     private Book findBookByIdFromRepository(Long id) {
         return bookRepository.findAllBooks()
-            .stream()
-            .filter(book -> book.getId().equals(id))
-            .findFirst()
-            .orElseThrow(() -> new BookNotFoundException(String.format("No book with id:[%d]", id)));
+                .stream()
+                .filter(book -> book.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new BookNotFoundException(String.format("No book with id:[%d]", id)));
     }
 
-    public Book saveBook(Book toSave) {
+    public BookDto saveBook(BookDto toSave) {
 
         // find max id
         // add book with id (max id + 1)
         // return book with id
         Long currentMaxId = bookRepository.findAllBooks()
-            .stream()
-            .mapToLong(value -> value.getId())
-            .max()
-            .orElse(1);
-        toSave.setId(currentMaxId + 1);
-        bookRepository.findAllBooks().add(toSave);
+                .stream()
+                .mapToLong(value -> value.getId())
+                .max()
+                .orElse(1);
+        Book entityToSave = bookMapper.fromDtoToEntity(toSave);
+        entityToSave.setId(currentMaxId + 1);
+        bookRepository.findAllBooks().add(entityToSave);
 
-        logger.info("saved book: [{}]", toSave);
+        logger.info("saved book: [{}]", entityToSave);
 
-        return toSave;
+        return bookMapper.fromEntityToDto(entityToSave);
     }
 
     public boolean deleteBookById(Long id) {
@@ -80,29 +92,36 @@ public class BookService {
     }
 
     // Transactional
-    public Book replaceBook(Long id, Book toReplace) {
+    public BookDto replaceBook(Long id, BookDto toReplace) {
         Book book = findBookByIdFromRepository(id);
 
-        toReplace.setId(id);
+        Book bookMapped = bookMapper.fromDtoToEntity(toReplace);
+        bookMapped.setId(id);
         bookRepository.findAllBooks().removeIf(book1 -> book1.getId().equals(id));
-        bookRepository.findAllBooks().add(toReplace);
-
+        bookRepository.findAllBooks().add(bookMapped);
         logger.info("replacing book [{}] with new one [{}]", book, toReplace);
-        return toReplace;
+        return bookMapper.fromEntityToDto(bookMapped);
     }
 
-    public Book updateBookWithAttributes(Long id, Book toUpdate) {
+    public BookDto updateBookWithAttributes(Long id, BookDto toUpdate) {
+
+        Book bookEntityToUpdate = bookMapper.fromDtoToEntity(toUpdate);
+
         Book book = findBookByIdFromRepository(id);
 
-        if (nonNull(toUpdate.getAuthor())) {
-            book.setAuthor(toUpdate.getAuthor());
+        if (nonNull(bookEntityToUpdate.getName())) {
+            book.setName(bookEntityToUpdate.getName());
         }
 
-        if (nonNull(toUpdate.getTitle())) {
-            book.setTitle(toUpdate.getTitle());
+        if (nonNull(bookEntityToUpdate.getSurname())) {
+            book.setSurname(bookEntityToUpdate.getSurname());
         }
 
-        logger.info("updated book: [{}], with changes to apply: [{}]", book, toUpdate);
-        return book;
+        if (nonNull(bookEntityToUpdate.getTitle())) {
+            book.setTitle(bookEntityToUpdate.getTitle());
+        }
+
+        logger.info("updated book: [{}], with changes to apply: [{}]", book, bookEntityToUpdate);
+        return bookMapper.fromEntityToDto(book);
     }
 }

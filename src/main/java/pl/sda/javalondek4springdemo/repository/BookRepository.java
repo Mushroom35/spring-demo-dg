@@ -17,11 +17,9 @@ public class BookRepository {
 
     public BookRepository() {
         List<Book> someBooks = List.of(
-                new Book(1L, "Henryk Sienkiewicz", "Potop"),
-                new Book(2L, "Henryk Sienkiewicz", "Pan Wołodyjowski"),
-                new Book(3L, "Henryk Sienkiewicz", "Quo Vadis"),
-                new Book(4L, "Dmitri Glukhovsky", "Metro 2033"),
-                new Book(5L, "George Orwell", "Rok 1984")
+            new Book(1L, "Henryk", "Sienkiewicz", "Potop"),
+            new Book(2L, "Henryk", "Sienkiewicz", "Pan Wołodyjowski"),
+            new Book(3L, "Henryk", "Sienkiewicz", "Quo Vadis")
         );
 
         this.books = new ArrayList<>(someBooks);

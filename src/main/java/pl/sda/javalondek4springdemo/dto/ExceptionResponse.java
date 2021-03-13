@@ -6,7 +6,7 @@ public final class ExceptionResponse {
 
     private LocalDateTime timestamp;
 
-    private int ResponseStatus;
+    private int responseStatus;
 
     private String error;
 
@@ -16,7 +16,7 @@ public final class ExceptionResponse {
 
     public ExceptionResponse(LocalDateTime timestamp, int responseStatus, String error, String message, String path) {
         this.timestamp = timestamp;
-        ResponseStatus = responseStatus;
+        this.responseStatus = responseStatus;
         this.error = error;
         this.message = message;
         this.path = path;
@@ -27,7 +27,7 @@ public final class ExceptionResponse {
     }
 
     public int getResponseStatus() {
-        return ResponseStatus;
+        return responseStatus;
     }
 
     public String getError() {
@@ -45,11 +45,11 @@ public final class ExceptionResponse {
     @Override
     public String toString() {
         return "ExceptionResponse{" +
-                "timestamp=" + timestamp +
-                ", ResponseStatus=" + ResponseStatus +
-                ", error='" + error + '\'' +
-                ", message='" + message + '\'' +
-                ", path='" + path + '\'' +
-                '}';
+            "timestamp=" + timestamp +
+            ", responseStatus=" + responseStatus +
+            ", error='" + error + '\'' +
+            ", message='" + message + '\'' +
+            ", path='" + path + '\'' +
+            '}';
     }
 }

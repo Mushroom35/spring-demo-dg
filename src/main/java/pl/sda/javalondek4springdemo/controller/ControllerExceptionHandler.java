@@ -19,17 +19,17 @@ public class ControllerExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
     @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleBookNotFoundException(BookNotFoundException exception, HttpServletRequest request) {
-        logger.warn("generic exception handler for some unexpected exception :)", exception);
+    public ResponseEntity<ExceptionResponse> handleBookNotFoundException(Exception exception, HttpServletRequest request) {
+        logger.warn("generic exception handler for some unexpected exception:)", exception);
+
 
         return ResponseEntity.badRequest().body(
-                new ExceptionResponse(LocalDateTime.now(Clock.systemUTC()),
-                        HttpStatus.BAD_REQUEST.value(),
-                        exception.getClass().getSimpleName(),
-                        exception.getMessage(),
-                        request.getServletPath()
-                )
+            new ExceptionResponse(LocalDateTime.now(Clock.systemUTC()),
+                HttpStatus.BAD_REQUEST.value(),
+                exception.getClass().getSimpleName(),
+                exception.getMessage(),
+                request.getServletPath()
+            )
         );
     }
-
 }
