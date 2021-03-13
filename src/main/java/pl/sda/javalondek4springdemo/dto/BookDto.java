@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 // data transfer object
 public final class BookDto {
+
     private Long id;
+
     @JsonProperty("autor")
     private String author;
+
     @JsonProperty("tytuł")
     private String title;
 
