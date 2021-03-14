@@ -13,11 +13,10 @@ import pl.sda.javalondek4springdemo.service.SecondDummyService;
 public class ApplicationConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
-
-// not this way
 //    @Bean
 //    public DummyController dummyController() {
-//        return new DummyController(new DummyService(new DummyRepository()));
+//        // not this way :)
+////        return new DummyController(new DummyService(new DummyRepository()));
 //    }
 
     @Bean
@@ -33,15 +32,14 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public DummyRepository dummyRepository() {
-        logger.info("DummyRepository()");
-        return new DummyRepository();
-    }
-
-    @Bean
     public SecondDummyService secondDummyService() {
-        logger.info("SecondDummyService()");
+        logger.info("secondDummyService()");
         return new SecondDummyService(dummyRepository());
     }
 
+    @Bean
+    public DummyRepository dummyRepository() {
+        logger.info("dummyRepository()");
+        return new DummyRepository();
+    }
 }
