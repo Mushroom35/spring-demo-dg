@@ -3,10 +3,9 @@ package pl.sda.javalondek4springdemo.repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import pl.sda.javalondek4springdemo.model.Book;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -19,7 +18,6 @@ public class BookRepository {
     public BookRepository(BookCrudRepository bookCrudRepository) {
         this.bookCrudRepository = bookCrudRepository;
     }
-
 
     public List<Book> findAllBooks() {
 //        var result = new ArrayList<Book>();
@@ -38,6 +36,7 @@ public class BookRepository {
         if (exists) {
             bookCrudRepository.deleteById(id);
         }
+
         return exists;
     }
 }

@@ -1,6 +1,5 @@
 package pl.sda.javalondek4springdemo.model;
 
-// jakarta.persistence.Entity
 import javax.persistence.*;
 
 @Entity(name = "books")

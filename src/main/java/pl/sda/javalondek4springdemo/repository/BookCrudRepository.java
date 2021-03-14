@@ -11,8 +11,8 @@ public interface BookCrudRepository extends CrudRepository<Book, Long> {
 
     @Query("from books")
 //    @Query("" +
-//            "select b                               " +
-//            "from books b                           ")
+//            "select b                                   " +
+//            "from books b                               ")
     List<Book> findAllBooks();
 
     Optional<Book> findBookByTitle(String title);
