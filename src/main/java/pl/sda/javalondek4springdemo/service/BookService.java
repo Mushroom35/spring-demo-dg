@@ -100,6 +100,7 @@ public class BookService {
         bookRepository.findAllBooks().removeIf(book1 -> book1.getId().equals(id));
         bookRepository.findAllBooks().add(bookMapped);
         logger.info("replacing book [{}] with new one [{}]", book, toReplace);
+
         return bookMapper.fromEntityToDto(bookMapped);
     }
 
